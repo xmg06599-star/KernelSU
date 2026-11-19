@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="home">主页</string>
-    <string name="home_not_installed">未安装</string>
-    <string name="home_click_to_install">点击安装</string>
-    <string name="home_working">工作中</string>
-    <string name="home_working_version">版本：%d</string>
-    <string name="home_superuser_count">超级用户数：%d</string>
-    <string name="home_unsupported">不支持</string>
-    <string name="home_unsupported_reason">KernelSU 现在只支持 GKI 内核</string>
-    <string name="home_kernel">内核版本</string>
-    <string name="home_manager_version">管理器版本</string>
-    <string name="home_fingerprint">系统指纹</string>
-    <string name="home_selinux_status">SELinux 状态</string>
+    <string name="home_not_installed">还没装呢</string>
+    <string name="home_click_to_install">点一下装嘛</string>
+    <string name="home_working">本小姐在好好工作哦</string>
+    <string name="home_working_version">本小姐的版本：%d</string>
+    <string name="home_superuser_count">被你授权的：%d</string>
+    <string name="home_unsupported">这机器我不认识</string>
+    <string name="home_unsupported_reason">本小姐现在只伺候 GKI 内核，你这台……啧</string>
+    <string name="home_kernel">内核（看不懂吧？）</string>
+    <string name="home_manager_version">本小姐的版本</string>
+    <string name="home_fingerprint">指纹·别乱摸</string>
+    <string name="home_selinux_status">SELinux 在盯着你哦</string>
     <string name="selinux_status_disabled">被禁用</string>
     <string name="selinux_status_enforcing">强制执行</string>
     <string name="selinux_status_permissive">宽容模式</string>
     <string name="selinux_status_unknown">未知</string>
-    <string name="superuser">超级用户</string>
+    <string name="superuser">被你授权的家伙</string>
     <string name="module_failed_to_enable">无法启用模块：%s</string>
     <string name="module_failed_to_disable">无法禁用模块：%s</string>
     <string name="module_empty">没有安装模块</string>
-    <string name="module">模块</string>
+    <string name="module">塞进来的模块</string>
     <string name="module_sort_action_first">可执行优先</string>
     <string name="module_sort_enabled_first">已启用优先</string>
     <string name="module_repos">模块仓库</string>
@@ -31,7 +31,7 @@
     <string name="module_install">安装</string>
     <string name="install">安装</string>
     <string name="reboot">重启</string>
-    <string name="settings">设置</string>
+    <string name="settings">本小姐的脾气</string>
     <string name="reboot_userspace">软重启</string>
     <string name="reboot_recovery">重启到 Recovery</string>
     <string name="reboot_bootloader">重启到 BootLoader</string>
@@ -51,12 +51,12 @@
     <string name="safe_mode">安全模式</string>
     <string name="reboot_to_apply">重启生效</string>
     <string name="module_magisk_conflict">因与 Magisk 有冲突，所有模块不可用！</string>
-    <string name="home_module_count">模块数：%d</string>
+    <string name="home_module_count">塞进来的：%d</string>
     <string name="home_learn_kernelsu">了解 KernelSU</string>
     <string name="home_learn_kernelsu_url">https://kernelsu.org/zh_CN/guide/what-is-kernelsu.html</string>
     <string name="home_click_to_learn_kernelsu">了解如何安装 KernelSU 以及如何开发模块</string>
-    <string name="home_support_title">支持开发</string>
-    <string name="home_support_content">KernelSU 将保持免费开源，向开发者捐赠以表示支持。</string>
+    <string name="home_support_title">喂，支持一下开发嘛</string>
+    <string name="home_support_content">本小姐不要钱，但开发者要吃饭……</string>
     <string name="about_source_code"><![CDATA[在 %1$s 查看源码<br/>加入我们的 %2$s 频道<br/>加入我们的 <b><a href="https://pd.qq.com/s/8lipl1brp">QQ</a></b> 频道]]></string>
     <string name="profile_default">默认</string>
     <string name="profile_template">模版</string>
