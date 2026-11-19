@@ -69,8 +69,7 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
+      # GitHub 的 ubuntu runner 已预装 Android SDK，无需再装（setup-android@v3 已因仓库变动失效）
 
       - name: Download arm64 ksud
         uses: actions/download-artifact@v6
