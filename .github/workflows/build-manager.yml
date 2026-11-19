@@ -44,7 +44,6 @@ jobs:
       matrix:
         include:
           - manager_type: normal
-          - manager_type: spoofed
     uses: ./.github/workflows/build-manager-common.yml
     secrets: inherit
     with:
