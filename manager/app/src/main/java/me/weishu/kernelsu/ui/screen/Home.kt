@@ -9,6 +9,7 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,11 +35,14 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.CheckCircleOutline
 import androidx.compose.material.icons.rounded.ErrorOutline
 import androidx.compose.material.icons.rounded.Link
+import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.produceState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -68,6 +72,10 @@ import me.weishu.kernelsu.ui.LocalHandlePageChange
 import me.weishu.kernelsu.ui.component.DropdownItem
 import me.weishu.kernelsu.ui.component.RebootListPopup
 import me.weishu.kernelsu.ui.component.rememberConfirmDialog
+import me.weishu.kernelsu.ui.moe.MoeAppearanceDialog
+import me.weishu.kernelsu.ui.moe.MoePageBackground
+import me.weishu.kernelsu.ui.moe.MoePrefs
+import me.weishu.kernelsu.ui.moe.moeText
 import me.weishu.kernelsu.ui.theme.isInDarkTheme
 import me.weishu.kernelsu.ui.util.checkNewVersion
 import me.weishu.kernelsu.ui.util.getModuleCount
@@ -106,6 +114,9 @@ fun HomePager(
     )
 
     val context = LocalContext.current
+    var showMoe by remember { mutableStateOf(false) }
+    MoeAppearanceDialog(show = showMoe, onDismiss = { showMoe = false })
+
     val prefs = context.getSharedPreferences("settings", Context.MODE_PRIVATE)
     val checkUpdate = prefs.getBoolean("check_update", true)
     val themeMode = prefs.getInt("color_mode", 0)
@@ -116,6 +127,7 @@ fun HomePager(
                 scrollBehavior = scrollBehavior,
                 hazeState = hazeState,
                 hazeStyle = hazeStyle,
+                onMoeClick = { showMoe = true },
             )
         },
         popupHost = { },
@@ -256,6 +268,7 @@ private fun TopBar(
     scrollBehavior: ScrollBehavior,
     hazeState: HazeState,
     hazeStyle: HazeStyle,
+    onMoeClick: () -> Unit = {},
 ) {
     TopAppBar(
         modifier = Modifier.hazeEffect(hazeState) {
@@ -266,6 +279,20 @@ private fun TopBar(
         color = Color.Transparent,
         title = stringResource(R.string.app_name),
         actions = {
+            Box(
+                modifier = Modifier
+                    .padding(end = 4.dp)
+                    .size(44.dp)
+                    .clickable { onMoeClick() },
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    imageVector = Icons.Rounded.Palette,
+                    contentDescription = "打扮本小姐",
+                    tint = colorScheme.primary,
+                    modifier = Modifier.size(22.dp),
+                )
+            }
             RebootListPopup(
                 modifier = Modifier.padding(end = 16.dp),
             )
@@ -331,7 +358,7 @@ private fun StatusCard(
                                     .offset(38.dp, 45.dp),
                                 contentAlignment = Alignment.BottomEnd
                             ) {
-                                Icon(
+                                if (MoePrefs.showCheck(LocalContext.current)) Icon(
                                     modifier = Modifier.size(170.dp),
                                     imageVector = Icons.Rounded.CheckCircleOutline,
                                     tint = if (isDynamicColor) {
@@ -349,7 +376,7 @@ private fun StatusCard(
                             ) {
                                 Text(
                                     modifier = Modifier.fillMaxWidth(),
-                                    text = workingText,
+                                    text = moeText(MoePrefs.KEY_MAGISK, workingText),
                                     fontSize = 20.sp,
                                     fontWeight = FontWeight.SemiBold,
                                 )
@@ -381,7 +408,7 @@ private fun StatusCard(
                             ) {
                                 Text(
                                     modifier = Modifier.fillMaxWidth(),
-                                    text = stringResource(R.string.superuser),
+                                    text = moeText(MoePrefs.KEY_APP, stringResource(R.string.superuser)),
                                     fontWeight = FontWeight.Medium,
                                     fontSize = 15.sp,
                                     color = colorScheme.onSurfaceVariantSummary,
@@ -408,7 +435,7 @@ private fun StatusCard(
                             ) {
                                 Text(
                                     modifier = Modifier.fillMaxWidth(),
-                                    text = stringResource(R.string.module),
+                                    text = moeText(MoePrefs.KEY_APP + "_mod", stringResource(R.string.module)),
                                     fontWeight = FontWeight.Medium,
                                     fontSize = 15.sp,
                                     color = colorScheme.onSurfaceVariantSummary,
