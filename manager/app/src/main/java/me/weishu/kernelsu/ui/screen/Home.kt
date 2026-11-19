@@ -133,6 +133,7 @@ fun HomePager(
         popupHost = { },
         contentWindowInsets = WindowInsets.systemBars.add(WindowInsets.displayCutout).only(WindowInsetsSides.Horizontal)
     ) { innerPadding ->
+        MoePageBackground {
         LazyColumn(
             modifier = Modifier
                 .fillMaxHeight()
@@ -196,6 +197,7 @@ fun HomePager(
                 }
                 Spacer(Modifier.height(bottomInnerPadding))
             }
+        }
         }
     }
 }
