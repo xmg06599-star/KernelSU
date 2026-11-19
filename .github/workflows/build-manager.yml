@@ -2,7 +2,7 @@ name: Build Manager (main)
 
 on:
   push:
-    branches: [ "main", "ci" ]
+    branches: [ "main", "ci", "dev" ]
     paths:
       - '.github/workflows/build-manager.yml'
       - '.github/workflows/build-manager-common.yml'
@@ -18,15 +18,11 @@ on:
       - 'manager/**'
       - 'kernel/**'
       - 'userspace/ksud/**'
+  workflow_dispatch:
   workflow_call:
 
 jobs:
-  build-lkm:
-    uses: ./.github/workflows/build-lkm.yml
-    secrets: inherit
-
   build-ksud:
-    needs: build-lkm
     strategy:
       matrix:
         include:
