@@ -302,17 +302,13 @@ private fun StatusCard(
 
                 val workingText = "${stringResource(id = R.string.home_working)}$workingMode$safeMode"
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(IntrinsicSize.Min),
-                    horizontalArrangement = Arrangement.spacedBy(12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
                 ) {
                     Card(
                         modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight(),
+                            .fillMaxWidth()
+                            .height(150.dp),
                         colors = CardDefaults.defaultColors(
                             color = when {
                                 isDynamicColor -> colorScheme.secondaryContainer
@@ -367,15 +363,13 @@ private fun StatusCard(
                             }
                         }
                     }
-                    Column(
-                        modifier = Modifier
-                            .weight(1f)
-                            .fillMaxHeight()
+                    Spacer(Modifier.height(12.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.spacedBy(12.dp),
                     ) {
                         Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f),
+                            modifier = Modifier.weight(1f),
                             insideMargin = PaddingValues(16.dp),
                             onClick = { onClickSuperuser() },
                             showIndication = true,
@@ -401,11 +395,8 @@ private fun StatusCard(
                                 )
                             }
                         }
-                        Spacer(Modifier.height(12.dp))
                         Card(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f),
+                            modifier = Modifier.weight(1f),
                             insideMargin = PaddingValues(16.dp),
                             onClick = { onclickModule() },
                             showIndication = true,
