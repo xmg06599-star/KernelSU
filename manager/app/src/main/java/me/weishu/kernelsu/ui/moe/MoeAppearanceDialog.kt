@@ -106,7 +106,7 @@ private fun MoeSlider(
                 .fillMaxWidth()
                 .height(8.dp)
                 .clip(androidx.compose.foundation.shape.RoundedCornerShape(4.dp))
-                .background(colorScheme.surfaceest)
+                .background(colorScheme.surfaceVariant)
         )
         Box(
             Modifier
