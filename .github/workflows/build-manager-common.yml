@@ -50,15 +50,15 @@ jobs:
       - name: Write key
         if: ${{ !cancelled() }}
         run: |
-          if [ ! -z "${{ secrets.KEYSTORE }}" ]; then
-            {
-              echo KEYSTORE_PASSWORD='${{ secrets.KEYSTORE_PASSWORD }}'
-              echo KEY_ALIAS='${{ secrets.KEY_ALIAS }}'
-              echo KEY_PASSWORD='${{ secrets.KEY_PASSWORD }}'
-              echo KEYSTORE_FILE='key.jks'
-            } >> gradle.properties
-            echo ${{ secrets.KEYSTORE }} | base64 -d > key.jks
-          fi
+          # 固定签名密钥：保证每次编译签名一致（内核只认这个哈希）
+          {
+            echo KEYSTORE_PASSWORD='moepass123'
+            echo KEY_ALIAS='moe'
+            echo KEY_PASSWORD='moepass123'
+            echo KEYSTORE_FILE='key.jks'
+          } >> gradle.properties
+          cp ../.github/moe.jks key.jks
+          ls -l key.jks
 
       - name: Setup Java
         uses: actions/setup-java@v5
