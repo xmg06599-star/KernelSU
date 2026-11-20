@@ -73,6 +73,12 @@ import me.weishu.kernelsu.ui.component.DropdownItem
 import me.weishu.kernelsu.ui.component.RebootListPopup
 import me.weishu.kernelsu.ui.component.rememberConfirmDialog
 import me.weishu.kernelsu.ui.moe.MoeAppearanceDialog
+import me.weishu.kernelsu.ui.moe.MoeHeroCard
+import me.weishu.kernelsu.ui.moe.MoeMiniCard
+import me.weishu.kernelsu.ui.moe.moeGlass
+import me.weishu.kernelsu.ui.moe.moeGlassCardModifier
+import me.weishu.kernelsu.ui.moe.moeInk
+import me.weishu.kernelsu.ui.moe.moeInkSub
 import me.weishu.kernelsu.ui.moe.MoePageBackground
 import me.weishu.kernelsu.ui.moe.MoePrefs
 import me.weishu.kernelsu.ui.moe.moeText
@@ -131,9 +137,9 @@ fun HomePager(
             )
         },
         popupHost = { },
+        containerColor = Color.Transparent,
         contentWindowInsets = WindowInsets.systemBars.add(WindowInsets.displayCutout).only(WindowInsetsSides.Horizontal)
     ) { innerPadding ->
-        MoePageBackground {
         LazyColumn(
             modifier = Modifier
                 .fillMaxHeight()
@@ -197,7 +203,6 @@ fun HomePager(
                 }
                 Spacer(Modifier.height(bottomInnerPadding))
             }
-        }
         }
     }
 }
@@ -331,125 +336,31 @@ private fun StatusCard(
 
                 val workingText = "${stringResource(id = R.string.home_working)}$workingMode$safeMode"
 
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Card(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(150.dp),
-                        colors = CardDefaults.defaultColors(
-                            color = when {
-                                isDynamicColor -> colorScheme.secondaryContainer
-                                isInDarkTheme(themeMode) -> Color(0xFF1A3825)
-                                else -> Color(0xFFDFFAE4)
-                            }
-                        ),
-                        onClick = {
-                            if (kernelVersion.isGKI()) onClickInstall()
-                        },
-                        showIndication = true,
-                        pressFeedbackType = PressFeedbackType.Tilt
-                    ) {
-                        Box(
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .offset(38.dp, 45.dp),
-                                contentAlignment = Alignment.BottomEnd
-                            ) {
-                                if (MoePrefs.showCheck(LocalContext.current)) Icon(
-                                    modifier = Modifier.size(170.dp),
-                                    imageVector = Icons.Rounded.CheckCircleOutline,
-                                    tint = if (isDynamicColor) {
-                                        colorScheme.primary.copy(alpha = 0.8f)
-                                    } else {
-                                        Color(0xFF36D167)
-                                    },
-                                    contentDescription = null
-                                )
-                            }
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(all = 16.dp)
-                            ) {
-                                Text(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    text = moeText(MoePrefs.KEY_MAGISK, workingText),
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.SemiBold,
-                                )
-                                Spacer(Modifier.height(2.dp))
-                                Text(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    text = stringResource(R.string.home_working_version, ksuVersion),
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium,
-                                )
-                            }
-                        }
-                    }
-                    Spacer(Modifier.height(12.dp))
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    MoeHeroCard(
+                        title = moeText(MoePrefs.KEY_MAGISK, workingText),
+                        subtitle = stringResource(R.string.home_working_version, ksuVersion),
+                        showCheck = MoePrefs.showCheck(LocalContext.current),
+                        onClick = { if (kernelVersion.isGKI()) onClickInstall() },
+                    )
+                    Spacer(Modifier.height(10.dp))
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.spacedBy(12.dp),
+                        horizontalArrangement = Arrangement.spacedBy(10.dp),
                     ) {
-                        Card(
-                            modifier = Modifier.weight(1f),
-                            insideMargin = PaddingValues(16.dp),
-                            onClick = { onClickSuperuser() },
-                            showIndication = true,
-                            pressFeedbackType = PressFeedbackType.Tilt
-                        ) {
-                            Column(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalAlignment = Alignment.Start
-                            ) {
-                                Text(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    text = moeText(MoePrefs.KEY_APP, stringResource(R.string.superuser)),
-                                    fontWeight = FontWeight.Medium,
-                                    fontSize = 15.sp,
-                                    color = colorScheme.onSurfaceVariantSummary,
-                                )
-                                Text(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    text = getSuperuserCount().toString(),
-                                    fontSize = 26.sp,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = colorScheme.onSurface,
-                                )
-                            }
+                        Box(Modifier.weight(1f)) {
+                            MoeMiniCard(
+                                label = moeText(MoePrefs.KEY_APP, stringResource(R.string.superuser)),
+                                number = getSuperuserCount().toString(),
+                                onClick = { onClickSuperuser() },
+                            )
                         }
-                        Card(
-                            modifier = Modifier.weight(1f),
-                            insideMargin = PaddingValues(16.dp),
-                            onClick = { onclickModule() },
-                            showIndication = true,
-                            pressFeedbackType = PressFeedbackType.Tilt
-                        ) {
-                            Column(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalAlignment = Alignment.Start
-                            ) {
-                                Text(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    text = moeText(MoePrefs.KEY_APP + "_mod", stringResource(R.string.module)),
-                                    fontWeight = FontWeight.Medium,
-                                    fontSize = 15.sp,
-                                    color = colorScheme.onSurfaceVariantSummary,
-                                )
-                                Text(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    text = getModuleCount().toString(),
-                                    fontSize = 26.sp,
-                                    fontWeight = FontWeight.SemiBold,
-                                    color = colorScheme.onSurface,
-                                )
-                            }
+                        Box(Modifier.weight(1f)) {
+                            MoeMiniCard(
+                                label = moeText("text_module", stringResource(R.string.module)),
+                                number = getModuleCount().toString(),
+                                onClick = { onclickModule() },
+                            )
                         }
                     }
                 }
@@ -548,6 +459,7 @@ fun UnofficialCard() {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
+        colors = CardDefaults.defaultColors(color = moeGlass()),
     ) {
         BasicComponent(
             title = stringResource(R.string.home_unofficial_kernelsu_title),
@@ -575,6 +487,7 @@ fun LearnMoreCard() {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
+        colors = CardDefaults.defaultColors(color = moeGlass()),
     ) {
         BasicComponent(
             title = stringResource(R.string.home_learn_kernelsu),
@@ -601,6 +514,7 @@ fun DonateCard() {
     Card(
         modifier = Modifier
             .fillMaxWidth(),
+        colors = CardDefaults.defaultColors(color = moeGlass()),
     ) {
         BasicComponent(
             title = stringResource(R.string.home_support_title),
@@ -631,18 +545,18 @@ private fun InfoCard() {
     ) {
         Text(
             text = title,
-            fontSize = MiuixTheme.textStyles.headline1.fontSize,
-            fontWeight = FontWeight.Medium,
-            color = colorScheme.onSurface
+            fontSize = 12.5.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = moeInk()
         )
         Text(
             text = content,
-            fontSize = MiuixTheme.textStyles.body2.fontSize,
-            color = colorScheme.onSurfaceVariantSummary,
-            modifier = Modifier.padding(top = 2.dp, bottom = bottomPadding)
+            fontSize = 10.5.sp,
+            color = moeInkSub(),
+            modifier = Modifier.padding(top = 3.dp, bottom = bottomPadding)
         )
     }
-    Card {
+    Box(modifier = moeGlassCardModifier()) {
         val context = LocalContext.current
         val uname = Os.uname()
         val managerVersion = getManagerVersion(context)

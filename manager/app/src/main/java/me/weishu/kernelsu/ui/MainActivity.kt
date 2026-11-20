@@ -62,6 +62,7 @@ import me.weishu.kernelsu.ui.screen.HomePager
 import me.weishu.kernelsu.ui.screen.ModulePager
 import me.weishu.kernelsu.ui.screen.SettingPager
 import me.weishu.kernelsu.ui.screen.SuperUserPager
+import me.weishu.kernelsu.ui.moe.MoePageBackground
 import me.weishu.kernelsu.ui.theme.KernelSUTheme
 import me.weishu.kernelsu.ui.util.getFileName
 import me.weishu.kernelsu.ui.util.install
@@ -261,18 +262,21 @@ fun MainScreen(navController: DestinationsNavigator) {
             bottomBar = {
                 BottomBar(hazeState, hazeStyle)
             },
+            containerColor = Color.Transparent,
         ) { innerPadding ->
-            HorizontalPager(
-                modifier = Modifier.hazeSource(state = hazeState),
-                state = pagerState,
-                beyondViewportPageCount = 4,
-                userScrollEnabled = userScrollEnabled,
-            ) {
-                when (it) {
-                    0 -> HomePager(navController, innerPadding.calculateBottomPadding())
-                    1 -> SuperUserPager(navController, innerPadding.calculateBottomPadding())
-                    2 -> ModulePager(navController, innerPadding.calculateBottomPadding())
-                    3 -> SettingPager(navController, innerPadding.calculateBottomPadding())
+            MoePageBackground {
+                HorizontalPager(
+                    modifier = Modifier.hazeSource(state = hazeState),
+                    state = pagerState,
+                    beyondViewportPageCount = 4,
+                    userScrollEnabled = userScrollEnabled,
+                ) {
+                    when (it) {
+                        0 -> HomePager(navController, innerPadding.calculateBottomPadding())
+                        1 -> SuperUserPager(navController, innerPadding.calculateBottomPadding())
+                        2 -> ModulePager(navController, innerPadding.calculateBottomPadding())
+                        3 -> SettingPager(navController, innerPadding.calculateBottomPadding())
+                    }
                 }
             }
         }
